@@ -1,3 +1,7 @@
+import TweenLite from 'gsap';
+import Barba from 'barba.js';
+import '../styles/main.scss';
+
 const PAGE = document.querySelector('.wrapper');
 const OVERLAY = document.querySelector('.overlay');
 
@@ -7,7 +11,7 @@ var TkyAnimation = Barba.BaseTransition.extend({
   start: function() {
     this.ani('-100vh');
     //TweenLite.set(PAGE, { y: '0' })
-    TweenLite.set(OVERLAY, { y: '0' })
+    TweenLite.set(OVERLAY, { y: '0' });
     this.aniOverlay('-100vh', () => this.finish());
 
   },
@@ -40,3 +44,4 @@ var TkyAnimation = Barba.BaseTransition.extend({
 Barba.Pjax.getTransition = function() {
   return TkyAnimation;
 };
+
