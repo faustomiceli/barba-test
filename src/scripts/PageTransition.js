@@ -1,5 +1,5 @@
 import Barba from 'barba.js'
-import TkyTransition from './pagetransition/TkyTransition'
+import TkyTransition from './transition/TkyTransition'
 
 class PageTransition {
   constructor() {
@@ -8,11 +8,15 @@ class PageTransition {
 
   init() {
     Barba.Pjax.start();
+    Barba.Prefetch.init();
+
     Barba.Pjax.getTransition = () => this._defineTransition();
   }
 
   _defineTransition() {
-    return TkyTransition.get();
+    if (TkyTransition.valid()) {
+      return TkyTransition.get();
+    }
   }
 }
 

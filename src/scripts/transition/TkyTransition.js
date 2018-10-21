@@ -2,7 +2,7 @@ import TweenLite from 'gsap'
 import Barba from 'barba.js'
 
 const DEFAULT_OPT = {
-  timing: 800
+  timing: 1000
 }
 
 class TkyTransition {
@@ -13,26 +13,28 @@ class TkyTransition {
     this.opt = Object.assign(DEFAULT_OPT, option);
   }
 
+  valid() {
+    return true;
+  }
+
   get() {
     const _this = this;
     const TIMING = this.opt.timing / 1000;
 
     return Barba.BaseTransition.extend({
       start: function() {
-        TweenLite.to(_this.PAGE, TIMING, {
-          y: '-20vh',
-          ease: Sine.easeOut,
-          autoAlpha: 1
-        })
-
         TweenLite.set(_this.OVERLAY, {
-          y: '0'
+          visibility: 'visible'
         });
+
+        TweenLite.to(_this.PAGE, TIMING, {
+          y: '-30vh'
+        })
 
         TweenLite.to(_this.OVERLAY, TIMING, {
           delay: 0,
+          esae: Sine.easeIn,
           y: '-100vh',
-          ease: Sine.easeOut,
           onComplete: () => this.finish()
         })
       },
@@ -40,8 +42,7 @@ class TkyTransition {
         TweenLite.set(this.oldContainer, { visibility: 'hidden' })
 
         TweenLite.set(_this.PAGE, {
-          y: '20vh',
-          autoAlpha: 0
+          y: '30vh'
         })
 
         this.newContainerLoading.then(() => {
@@ -49,15 +50,21 @@ class TkyTransition {
 
           TweenLite.to(_this.PAGE, TIMING, {
             y: '0',
-            ease: Sine.easeOut,
-            autoAlpha: 1
+            ease: Sine.easeOut
           })
 
           TweenLite.to(_this.OVERLAY, TIMING, {
             delay: 0,
+            esae: Sine.easeOut,
             y: '-200vh',
-            ease: Sine.easeOut,
-            onComplete: () => this.done()
+            onComplete: () => {
+              this.done()
+
+              TweenLite.set(_this.OVERLAY, {
+                y: '0',
+                visibility: 'hidden'
+              });
+            }
           })
         });
       },

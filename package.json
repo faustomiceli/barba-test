@@ -2,7 +2,6 @@
   "name": "barba",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack-prod.config.js --colors",
     "dev": "webpack-dev-server --open --config webpack-dev.config.js --watch --colors"

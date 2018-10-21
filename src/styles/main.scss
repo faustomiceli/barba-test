@@ -10,11 +10,19 @@ body {
 
 .wrapper {
   width: 100%;
-  height: 200vh;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+
 }
 
 .barba-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: auto;
   width: 100%;
+  height: 100%;
   text-align: center;
 }
 
