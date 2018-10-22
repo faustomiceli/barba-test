@@ -44,7 +44,14 @@ module.exports = (options) => {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/env']
+            presets: ['@babel/env'],
+            plugins: [
+              ["@babel/plugin-syntax-dynamic-import"],
+              ["@babel/plugin-transform-runtime", {
+                "corejs": 2,
+                "regenerator": true
+              }]
+            ]
           }
         }
       }]

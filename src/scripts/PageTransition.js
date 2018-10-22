@@ -3,6 +3,7 @@ import TkyTransition from './transition/TkyTransition'
 
 class PageTransition {
   constructor() {
+    this.bindEvents();
     this.init();
   }
 
@@ -11,6 +12,18 @@ class PageTransition {
     Barba.Prefetch.init();
 
     Barba.Pjax.getTransition = () => this._defineTransition();
+  }
+  
+  bindEvents() {
+    Barba.Dispatcher.on('newPageReady', (newStatus, oldStatus, container) => {
+      this._loadController(newStatus.namespace)
+    });
+  }
+
+  async _loadController(controllerName) {
+    if (controllerName == 'homepage') {
+      new (await import('./controller/HomepageController')).default();
+    }
   }
 
   _defineTransition() {
