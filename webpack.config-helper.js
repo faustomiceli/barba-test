@@ -46,10 +46,10 @@ module.exports = (options) => {
           options: {
             presets: ['@babel/env'],
             plugins: [
-              ["@babel/plugin-syntax-dynamic-import"],
-              ["@babel/plugin-transform-runtime", {
-                "corejs": 2,
-                "regenerator": true
+              ['@babel/plugin-syntax-dynamic-import'],
+              ['@babel/plugin-transform-runtime', {
+                'corejs': 2,
+                'regenerator': true
               }]
             ]
           }
@@ -59,18 +59,21 @@ module.exports = (options) => {
     };
 
   if (options.isProduction) {
-    webpackConfig.plugins.push(
+    webpackConfig.plugins = [
+      ...webpackConfig.plugins,
       new UglifyJSPlugin({
         sourceMap: true,
       }),
       ExtractSASS
-    );
+    ];
 
-    webpackConfig.module.rules.push({
-      test: /\.s?css/i,
-      use: ExtractSASS.extract(['css-loader?sourceMap=true&minimize=true', 'sass-loader'])
-    });
-
+    webpackConfig.module.rules = [
+      ...webpackConfig.module.rules,
+      {
+        test: /\.s?css/i,
+        use: ExtractSASS.extract(['css-loader?sourceMap=true&minimize=true', 'sass-loader'])
+      }
+    ];
   } else {
     webpackConfig.plugins.push(
       new Webpack.HotModuleReplacementPlugin()
