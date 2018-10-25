@@ -1,6 +1,6 @@
 import '../../styles/page.scss';
 
-class HomepageController {
+class PageController {
     constructor() {
         console.log('page instance');
     }
@@ -14,4 +14,4 @@ class HomepageController {
     }
 }
 
-export default HomepageController
+export default PageController

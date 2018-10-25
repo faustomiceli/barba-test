@@ -1,5 +1,6 @@
 import Barba from 'barba.js'
 import TkyTransition from './transition/TkyTransition'
+import ControllerManager from './ControllerManager'
 
 const DEFAULT_OPT = {
   pageClassPrefix: 'p-'
@@ -25,36 +26,16 @@ class PageTransition {
 
   bindEvents() {
     Barba.Dispatcher.on('newPageReady', (newStatus) => {
-      this._loadController(newStatus.namespace)
+      ControllerManager.loadController(newStatus.namespace)
     });
 
     Barba.Dispatcher.on('initStateChange', () => {
-      this._destroyController();
+      ControllerManager.destroyController();
     });
 
     Barba.Dispatcher.on('transitionCompleted', (newStatus = {}, oldStatus = {}) => {
       this._setPageClass(newStatus.namespace, oldStatus.namespace);
     });
-  }
-
-  _loadController(controllerName) {
-    if (controllerName == 'homepage') {
-      import(/* webpackChunkName: "HomepageController" */ './controller/HomepageController').then(Controller => this._setController(Controller));
-    }
-
-    if (controllerName == 'page') {
-      import(/* webpackChunkName: "PageController" */ './controller/PageController').then(Controller => this._setController(Controller));
-    }
-  }
-
-  _setController(Controller) {
-    this.activeController = new Controller.default();
-  }
-
-  _destroyController() {
-    if (this.activeController && this.activeController.destroy) {
-      this.activeController.destroy();
-    }
   }
 
   _setPageClass(newClass = '', oldClass = '') {

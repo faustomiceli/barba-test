@@ -1,5 +1,6 @@
 import TweenLite from 'gsap'
 import Barba from 'barba.js'
+import EventManager from '../EventManager'
 
 const DEFAULT_OPT = {
   timing: 1000,
@@ -57,27 +58,33 @@ class TkyTransition {
           y: '30vh'
         });
 
+        console.log('aspetto la pagina')
         Promise.all([this.newContainerLoading]).then(() => {
-          this.done();
-          TweenLite.set(this.newContainer, { visibility: 'visible' });
+          console.log('la pagina è arrivata')
+          EventManager.addListener('ControllerLoaded', () => {
+            console.log('ora anche il controller')
 
-          TweenLite.to(_this.PAGE, TIMING, {
-            y: '0',
-            ease: Sine.easeOut
-          });
+            this.done();
+            TweenLite.set(this.newContainer, { visibility: 'visible' });
 
-          TweenLite.to(_this.OVERLAY, TIMING, {
-            delay: 0,
-            esae: Sine.easeOut,
-            y: '-200vh',
-            onComplete: () => {
-              _this._transitionEndend();
+            TweenLite.to(_this.PAGE, TIMING, {
+              y: '0',
+              ease: Sine.easeOut
+            });
 
-              TweenLite.set(_this.OVERLAY, {
-                y: '0',
-                visibility: 'hidden'
-              });
-            }
+            TweenLite.to(_this.OVERLAY, TIMING, {
+              delay: 0,
+              esae: Sine.easeOut,
+              y: '-200vh',
+              onComplete: () => {
+                _this._transitionEndend();
+
+                TweenLite.set(_this.OVERLAY, {
+                  y: '0',
+                  visibility: 'hidden'
+                });
+              }
+            });
           })
         });
       },
